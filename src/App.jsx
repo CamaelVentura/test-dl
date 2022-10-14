@@ -1,57 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export function App() {
-  const [count, setCount] = useState(3);
-  const [buttons, setButtons] = useState([]);
+  const [count, setCount] = useState(1);
+  const buttons = [];
 
-  function changingCount(value) {
-    setCount(count + value);
+  const colors = {
+    1: 'blue',
+    2: 'red',
+    3: 'green',
+    0: 'yellow',
   }
 
-  function decrement() {
-    changingCount(-1)
+  for (let button = 0; button < count; button++) {
+    const color = (button % 4);
+
+    buttons.push(<button key={Math.random()} style={{backgroundColor: colors[color]}}>Botão {button + 1}</button>)    
   }
-
-  function increment() {
-    changingCount(1)
-  }
-
-  useEffect(() => {
-    const newButtons = []
-
-    for (let button = 0; button <= count; button++) {
-      const color = ((button + 1) % 4);
-      let classColor = '';
-  
-      switch (color) {
-  
-        case 1:
-          classColor = 'blue';
-          break;
-        case 2:
-          classColor = 'red';
-          break;
-        case 3:
-          classColor = 'green';
-          break;
-        default:
-          classColor = 'yellow';
-          break;
-      }
-  
-      newButtons.push(<button style={{ backgroundColor: classColor }}>Botão {button + 1}</button>)
-    }
-
-    setButtons(newButtons);
-  }, [count]);
 
   return (
     <>
       <div>
         <h2>Quantidade de botões:</h2>
-        <button onClick={decrement} disabled={count <= 1}>-</button>
+        <button onClick={() =>setCount(currentCount => currentCount-1)} disabled={count<=1}>-</button>
         <span>{count}</span>
-        <button onClick={increment}>+</button>
+        <button onClick={() =>setCount(currentCount => currentCount+1)}>+</button>     
       </div>
 
       {buttons && buttons.map(item => item)}
